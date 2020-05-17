@@ -31,6 +31,10 @@ namespace WebDriverTasks
             // 3) Thread sleep
             Thread.Sleep(5000); // This is Implicit wait because the code will be fulfilled only once when DOM is loading.
 
+            // Make the screenshot
+            Screenshot ss = ((ITakesScreenshot)_driver).GetScreenshot();
+            ss.SaveAsFile(System.IO.Path.Combine("C:/Users/lenamavricheva/source/repos/Task 2/WebDriverTasks/assets", "tut_by.png"), ScreenshotImageFormat.Png);
+
             IWebElement searchEnterButton = _driver.FindElement(By.CssSelector("a.enter"));
             searchEnterButton.Click();
 
@@ -43,6 +47,7 @@ namespace WebDriverTasks
             IWebElement searchApplyButton = _driver.FindElement(By.CssSelector("input.button.m-green.auth__enter"));
             searchApplyButton.Click();
         }
+
 
         public Email GetEmailList()
         {
@@ -220,6 +225,8 @@ namespace WebDriverTasks
 
             IList<IWebElement> elements = _driver.FindElements(By.CssSelector("span > a.paginate_button"));
             int value = elements.Count;
+
+
             for (int i = 1; i <= value; i++)
             {
                 if (_driver.FindElement(By.CssSelector("a#example_next")).Enabled == true)
@@ -229,8 +236,9 @@ namespace WebDriverTasks
                     var columns = table.FindElements(By.TagName("th"));
                     var rows = table.FindElements(By.TagName("tr"));
 
-                    int rowIndex = 0;
-              
+                    int rowIndex = 1;
+                    List<object> _tableDataColections2 = new List<object>();
+
                     foreach (var row in rows)
                     {
                         int colIndex = 0;
@@ -244,19 +252,7 @@ namespace WebDriverTasks
                                 ColumnName = columns[colIndex].Text,
                                 ColumnValue = colValue.Text
                             });
-
                             colIndex++;
-                        }
-
-                        var data = from rowData in _tableDataColections select rowData;
-
-                        foreach (TableDataColection tableData in data)
-                        {
-                            if (tableData.ColumnName == "Age")
-                            {
-
-                            }
-                            Console.WriteLine($"{tableData.ColumnName} - {tableData.ColumnValue}");
                         }
 
                         if (rows.IndexOf(row) == rows.Count - 1)
@@ -265,8 +261,31 @@ namespace WebDriverTasks
                             searchPaginateButtonElem.Click();
                         }
 
+                        _tableDataColections2.Add(_tableDataColections);
+
                         rowIndex++;
                     }
+
+                    var data = from rowData in _tableDataColections2 select rowData;
+
+                    
+                    foreach (var tableData in data)
+                    {
+                        /* if (tableData.ColumnName == "Age")
+                        {
+                            Console.WriteLine(tableData.ColumnName + " " + tableData.Age);
+                        }
+                        else if (tableData.ColumnName == "Salary")
+                        {
+                            Console.WriteLine(tableData.ColumnName + " " + tableData.Salary);
+                        }
+                        else
+                        {
+                            Console.WriteLine(tableData.ColumnName + " " + tableData.ColumnValue);
+                        } */
+
+                    }
+
                 }
             }
 

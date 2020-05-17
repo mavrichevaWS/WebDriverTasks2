@@ -31,7 +31,7 @@ namespace WebDriverTasks
         }
 
         [TestMethod]
-        [DeploymentItem("d:\\Homework\\Task 2\\data.xls")]
+        [DeploymentItem("d:\\Homework\\Task 2\\WebDriverTasks\\assets\\data.xls")]
         [DataSource("MyExcelDataSource")]
         public void NewEmailTest()
         {
